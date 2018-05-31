@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1 class="title"> Random User Generator</h1>
+<div class="user-profile">
+	<img id="avatar" src="https://randomuser.me/api/portraits/med/women/6.jpg" />
+    <div id="fullname">andrea sørensen</div>
+  <div id="username">
+  	goldendog885
+  </div>
+    <div class="description">
+      <div>Email: <span id="email">andrea.sørensen@example.com</span></div>
+      <div>City: <span id="city">nr åby</span></div>
+  </div>
+  <div class="footer">
+    <button id="btn">Next User!</button>
+ </div>
+</div>
+<script>
+const url =' https://randomuser.me/api/ ';
+
+let avatar = document.getElementById('avatar');
+let fullname = document.getElementById('fullname');
+let username = document.getElementById('username');
+let email = document.getElementById('email');
+let city = document.getElementById('city');
+let btn = document.getElementById('btn');
+
+btn.addEventListener("click", function() {
+  fetch(url)
+    .then(handleErrors)
+    .then(parseJSON)
+    .then(updateProfile)
+    .catch(printError)
+});
+
+function handleErrors (res){
+    console.log(res)
+  if(!res.ok){
+    throw error(res.status);
+  }
+  console.log(res);
+  return res;
+}
+
+function parseJSON (res){
+  console.log(res);
+  return res.json();
+}
+
+function updateProfile (profile){
+  console.log("hi");
+  console.log(profile);
+  avatar.src = profile.results[0].picture.medium;
+  fullname.innerHTML = profile.results[0].name.first +" "+profile.results[0].name.last; 
+  username.innerHTML = profile.results[0].login.username; 
+  email.innerHTML = profile.results[0].email;
+  city.innerHTML = profile.results[0].location.city;
+  return 1;
+}
+
+function printError (error){
+  console.log(error);
+}
+
+
+
+
+</script>
+
+
+</body>
+</html>
